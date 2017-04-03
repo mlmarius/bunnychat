@@ -7,7 +7,7 @@ import pika
 from pika.exceptions import AMQPConnectionError
 from threading import Thread, Event
 from Queue import Empty
-from time import time
+import time
 
 LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -30s %(funcName) '
               '-35s %(lineno) -5d: %(message)s')
