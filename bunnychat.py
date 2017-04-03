@@ -4,8 +4,10 @@
 
 import logging
 import pika
+from pika.exceptions import AMQPConnectionError
 from threading import Thread, Event
 from Queue import Empty
+from time import time
 
 LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -30s %(funcName) '
               '-35s %(lineno) -5d: %(message)s')
@@ -65,10 +67,16 @@ class BunnyChat(object):
         :rtype: pika.SelectConnection
 
         """
-        LOGGER.info('Connecting to %s', self._url)
-        return pika.SelectConnection(pika.URLParameters(self._url),
+        while True:
+            LOGGER.info('Connecting to %s', self._url)
+            try:
+                return pika.SelectConnection(pika.URLParameters(self._url),
                                      self.on_connection_open,
                                      stop_ioloop_on_close=False)
+            except AMQPConnectionError:
+                time.sleep(self._reconnect_timeout)
+
+        
 
     def on_connection_open(self, unused_connection):
         """This method is called by pika once the connection to RabbitMQ has
