@@ -264,7 +264,7 @@ class BunnyChat(object):
             '''
             LOGGER.info('Attempt to consume queue')
             self.start_consuming()
-        if self.input_queue is not None and self.input_dequer_active is None:
+        if self.input_queue is not None and ((self.input_dequer_active is None) or (not self.input_dequer_active.is_set())):
             '''
             if we have an inputque and we have not yet launched a dequer thread
             because we have no input_dequer_active Event ...
