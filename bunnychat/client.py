@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # example used: http://pika.readthedocs.io/en/0.10.0/examples/asynchronous_publisher_example.html
 
-
 import logging
 import pika
 from pika.exceptions import AMQPConnectionError
@@ -12,7 +11,6 @@ import time
 LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -30s %(funcName) '
               '-35s %(lineno) -5d: %(message)s')
 LOGGER = logging.getLogger(__name__)
-
 
 class BunnyChat(object):
     """This is an example consumer that will handle unexpected interactions
@@ -468,14 +466,3 @@ class BunnyChat(object):
         """This method closes the connection to RabbitMQ."""
         LOGGER.info('Closing connection')
         self._connection.close()
-
-
-def producer(queue, stop_signal):
-    return
-    while not stop_signal.is_set():
-        # queue.put(('publish', ['', 'fmnear.input', 'message here'], {}))
-        msg = 'message is %s' % datetime.datetime.now().isoformat()
-        queue.put(('publish', ['infp', 'reb.new', msg], {'properties':{'app_id': 'my_app'}}))
-        LOGGER.info("producer produced a value: %s" % msg)
-        time.sleep(0.001)
-    LOGGER.info('producer exiting')
